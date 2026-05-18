@@ -159,8 +159,26 @@ SoundCue/
         │   └── ui/
         │       ├── theme/Theme.kt
         │       ├── components/ (ModeCard, EventCard)
-        │       └── screens/ (HomeScreen, BabyDashboardScreen)
+        │       └── screens/ (Home, BabyDashboard,
+        │                      GestureSpeak, Profile, Report)
         └── res/
+wear/
+├── build.gradle.kts
+└── src/main/
+    ├── AndroidManifest.xml
+    ├── java/com/soundcue/babycare/wear/
+    │   ├── MainActivity.kt
+    │   ├── AlertListenerService.kt
+    │   ├── AlertState.kt
+    │   ├── GestureBridge.kt
+    │   ├── WatchTts.kt
+    │   └── gesture/
+    │       ├── GestureRecorder.kt
+    │       ├── GestureMatcher.kt
+    │       ├── GestureModel.kt
+    │       ├── GestureStore.kt
+    │       └── GestureViewModel.kt
+    └── res/
 ```
 
 ---

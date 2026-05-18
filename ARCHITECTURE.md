@@ -135,6 +135,25 @@ graph LR
     style wear fill:#fef7e0,stroke:#f9ab00
 ```
 
+## Feature Roadmap
+
+| Feature | Status |
+|---|---|
+| Quick-button Watch TTS | Done |
+| Watch -> Phone gesture transmission | Done |
+| Phone Gemma phrase generation + TTS | Done |
+| Watch alert reception + strong haptic | Done |
+| User profile (baby name, age, parent title, tone) | Done |
+| Time-of-day tone auto-adjustment | Done |
+| Daily report (event count + Gemma comment) | Done |
+| Manual input (feeding, diaper, sleep) | Done |
+| Safety escalation (consecutive cry -> health check) | Done |
+| Persona-aware Gemma prompt | Done |
+| Night TTS volume/pitch auto-adjustment | Done |
+| Motion calibration | Done |
+| Sign-to-Speech (watch gesture -> Gemma contextual phrase -> TTS) | Done |
+| Weekly trend + age-based comparison | Planned (P1) |
+
 ## Device Deployment
 
 ```mermaid

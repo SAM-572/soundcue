@@ -123,6 +123,24 @@ Gemma 4 is also used for two additional features:
 
 ---
 
+## Beyond Monitoring: Giving Parents a Voice
+
+SoundCue is not just a baby monitor. For parents who are both deaf and speech-impaired, the greatest fear isn't missing a cry -- it's that their child will grow up without hearing a parent's voice. They worry: "Will my child struggle with language development because of me?"
+
+**Sign-to-Speech** addresses this directly. The parent performs sign language gestures on the Galaxy Watch. Gemma 4 interprets the gesture context -- combining the sign with the baby's current state (crying? calm? just fed?) -- and generates a natural spoken phrase via TTS through the phone speaker.
+
+A parent signs "comfort" -> Gemma generates "It's okay, sweetie. Mommy is right here." -- not a dictionary lookup, but a contextual, warm sentence that adapts to the baby's name, age, and current situation. The same sign during a cry event produces a different phrase than during calm play.
+
+This transforms the watch from an alert receiver into a **voice prosthetic** -- letting speech-impaired parents speak to their babies in natural language, supporting early language development during the critical 0-3 year window.
+
+---
+
+## Our Vision
+
+Ultimately, we want SoundCue to detect the moment a baby says "mama" or "papa" for the first time. Deaf parents will never hear that sound -- but they deserve to feel that moment. A vibration on the wrist, a message on the screen: "Your baby just called you Mom." That is the future we are building toward.
+
+---
+
 ## Impact
 
 SoundCue demonstrates that on-device AI can bridge a critical accessibility gap. By running entirely offline on a consumer smartphone, it works in any environment -- no Wi-Fi, no cloud dependency, no privacy concerns from streaming baby audio to external servers.
@@ -148,9 +166,9 @@ The same architecture generalizes to driving mode (siren/horn detection), disast
 
 ## Links
 
-- **Code Repository**: [GitHub - SoundCue](https://github.com/YOUR_REPO_HERE)
+- **Code Repository**: [GitHub - SoundCue](https://github.com/SAM-572/soundcue)
 - **Video Demo**: [YouTube](https://youtube.com/YOUR_VIDEO_HERE)
-- **Live Demo**: APK available in repository releases
+- **Live Demo**: [APK Downloads](https://github.com/SAM-572/soundcue/releases/tag/v1.0.0)
 
 ---
 
