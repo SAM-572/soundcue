@@ -20,7 +20,7 @@ SoundCue is a native Android + Wear OS application built with Kotlin and Jetpack
 
 ### Stage 1: Sound Detection (YAMNet)
 
-A TFLite YAMNet model performs continuous on-device audio classification. It listens through the phone microphone using a VAD (Voice Activity Detection) system that captures sound segments only when activity is detected, preserving battery. YAMNet classifies audio into 521 AudioSet categories, which are then mapped to baby-relevant labels: `BABY_CRY`, `BABY_LAUGH`, `BABBLE`, `COUGH`, `BURP`, `HICCUP`, `CRASH_CLANG`, `LOUD_NOISE`, and more.
+AudioCaptureManager and a VAD (Voice Activity Detection) module segment candidate sound windows from the phone microphone, capturing audio only when activity is detected to preserve battery. YAMNet TFLite then performs on-device audio event classification across 521 AudioSet categories, which are mapped to baby-relevant labels: `BABY_CRY`, `BABY_LAUGH`, `BABBLE`, `COUGH`, `BURP`, `HICCUP`, `CRASH_CLANG`, `LOUD_NOISE`, and more.
 
 A `TemporalSmoother` applies sliding-window voting across recent predictions to eliminate flicker from noisy single-frame classifications.
 
@@ -42,7 +42,7 @@ This is where Gemma 4 transforms raw classification into *understanding*. Rather
 ```
 
 **Why Gemma 4, not just rules?** Because Gemma reasons about context:
-- It differentiates *hunger cries* from *discomfort cries* based on acoustic feature descriptions
+- It does not claim to medically diagnose cry causes. Instead, Gemma combines the detected sound event with baby age, time of day, and recent history to suggest likely care checks such as feeding, diaper, sleep, or discomfort
 - It generates care hints personalized to the baby's age and parent's preferred tone
 - It produces natural Korean (or English) sentences for the watch gesture-to-speech feature
 - It ranks which parent gesture would be most helpful given recent events
@@ -54,7 +54,7 @@ A rule engine would need hundreds of hand-crafted branches. Gemma handles this w
 Alerts flow to three outputs simultaneously:
 1. **Phone UI** -- large, high-contrast cards designed for accessibility (big text, color-coded severity, care suggestions)
 2. **Phone Notification** -- Android NotificationCompat with severity-based vibration patterns
-3. **Galaxy Watch 7** -- via Wearable Data Layer MessageClient, delivering short watch-optimized text + haptic vibration patterns (2 short pulses for baby events, 3 strong pulses for high-urgency)
+3. **Galaxy Watch 7 Ultra** -- via Wearable Data Layer MessageClient, delivering short watch-optimized text + haptic vibration patterns (2 short pulses for baby events, 3 strong pulses for high-urgency)
 
 ---
 
@@ -78,7 +78,7 @@ Microphone
 
 Key design decisions:
 
-- **Gemma 4 E2B over E4B**: Our task is structured JSON generation from short inputs, not deep chain-of-thought reasoning. E2B is 3x faster, uses half the memory (~2GB vs ~4GB), and produces sufficient JSON compliance for our prompts. On a Galaxy Z Flip 6, inference completes in ~800ms.
+- **Gemma 4 E2B over E4B**: Our task is structured JSON generation from short inputs, not deep chain-of-thought reasoning. E2B is 3x faster, uses half the memory (~2GB vs ~4GB), and produces sufficient JSON compliance for our prompts. On a Galaxy Z Flip 6, inference typically completes in under 1 second (latency displayed in real-time on the app UI).
 - **LiteRT-LM over AICore/MediaPipe**: AICore Prompt API was unavailable on our Flip 6 test device. MediaPipe LLM Inference is deprecated. LiteRT-LM provided the most reliable on-device path with GPU acceleration (CPU fallback if GPU init fails).
 - **YAMNet + Gemma dual-model**: YAMNet handles the "what sound is this?" question efficiently (real-time classification). Gemma handles the "what does this mean for the parent?" question intelligently. This separation keeps battery usage low while maximizing reasoning quality.
 
@@ -125,13 +125,13 @@ Gemma 4 is also used for two additional features:
 
 ## Beyond Monitoring: Giving Parents a Voice
 
-SoundCue is not just a baby monitor. For parents who are both deaf and speech-impaired, the greatest fear isn't missing a cry -- it's that their child will grow up without hearing a parent's voice. They worry: "Will my child struggle with language development because of me?"
+SoundCue is not just a baby monitor. For parents who are both deaf and speech-impaired, the challenge extends beyond monitoring: their baby may receive fewer natural spoken interactions from a parent during the critical 0-3 year language development window.
 
-**Sign-to-Speech** addresses this directly. The parent performs sign language gestures on the Galaxy Watch. Gemma 4 interprets the gesture context -- combining the sign with the baby's current state (crying? calm? just fed?) -- and generates a natural spoken phrase via TTS through the phone speaker.
+**Gesture-to-Speech** addresses this directly. The parent uses calibrated watch gestures mapped to caregiving intents such as comfort, feed, call name, and soothe. Gemma 4 interprets the gesture context -- combining the intent with the baby's current state (crying? calm? just fed?) -- and generates a natural spoken phrase via TTS through the phone speaker.
 
-A parent signs "comfort" -> Gemma generates "It's okay, sweetie. Mommy is right here." -- not a dictionary lookup, but a contextual, warm sentence that adapts to the baby's name, age, and current situation. The same sign during a cry event produces a different phrase than during calm play.
+A parent gestures "comfort" -> Gemma generates "It's okay, sweetie. Mommy is right here." -- not a dictionary lookup, but a contextual, warm sentence that adapts to the baby's name, age, and current situation. The same gesture during a cry event produces a different phrase than during calm play.
 
-This transforms the watch from an alert receiver into a **voice prosthetic** -- letting speech-impaired parents speak to their babies in natural language, supporting early language development during the critical 0-3 year window.
+This transforms the watch from an alert receiver into an **assistive voice bridge** -- helping speech-impaired parents provide spoken language exposure to their babies through AI-generated contextual phrases.
 
 ---
 
